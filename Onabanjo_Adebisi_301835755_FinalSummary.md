@@ -4,7 +4,15 @@
 
 ## Case study
 
-My case study is Hotel Reservation System. I designed the database for front-desk staff manage guest details and reservations. and managers review room occupancy and payment summaries., with separate tables named guests, rooms, reservations and payments. It supports these operations: create and retrieve guests, rooms, reservations, and payments; find active rooms available for a requested date range; summarize collected payments by room type and month; separate benchmark plan: generate 20000 synthetic reservations, compare the same booked_at date-range filter with and without a B-tree index, and record measured observations without presuming which plan is faster.
+My case study is a Hotel Reservation System. I designed the database so front-desk staff can manage guest details and reservations, and managers can review room occupancy and payment summaries. The data sits in separate tables named guests, rooms, reservations and payments.
+
+The database supports these operations:
+
+   Creating and retrieving guests, rooms, reservations and payments.
+   Finding active rooms available for a requested date range.
+   Summarizing collected payments by room type and month.
+
+I also planned a separate benchmark. It generates 20,000 synthetic reservations and compares the same booked_at date-range filter with and without a B-tree index. I record what I measure and don’t assume which plan will be faster.
 
 ## Portfolio 1: Database Design and Modelling
 
@@ -43,7 +51,9 @@ I proposed three MongoDB replica members across separate failure zones. The disc
 
 ## Individual reflection
 
-I kept guests, rooms, reservations, payments in separate tables so their details could be maintained without repeating them in every related record. At most one confirmed reservation per room may have a given check-in date; enforce with a partial unique key on room_id and check_in for confirmed rows. The constraint tests check this alongside the required values and record links. One issue illustrated by the two-session exercise is that both sessions can read the same value before either update is committed. Locking the row before reading preserves both increments. The index comparison also shows why I need to check the execution plan as well as the final answer: the same result can require different amounts of database work.
+I kept guests, rooms, reservations and payments in separate tables so their details can be maintained without repeating them in every related record. At most one confirmed reservation per room can have a given check-in date, and I enforce this with a partial unique key on room_id and check_in for confirmed rows. The constraint tests check this along with the required values and record links.
+
+The two-session exercise showed me that both sessions can read the same value before either update is committed. Locking the row before reading keeps both increments. The index comparison also taught me to check the execution plan as well as the final answer, because the same result can take very different amounts of database work.
 
 ## AI-use declaration
 
